@@ -1,6 +1,7 @@
 #include "Main.h"
 #include "Line.h"
 #include "Quad.h"
+#include "Circle.h"
 #include "UserInterface.h"
 
 using std::vector;
@@ -45,8 +46,10 @@ void pick(int x, int y)
 			if (type == LINE)
 				userInterface->setFigureType("Line");
 			else
+				if(type ==QUAD)
 				userInterface->setFigureType("Quad");
-
+				else
+					userInterface->setFigureType("Circle");
 			break;
 		}
 	}
@@ -133,29 +136,35 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 		float ax = float(x);
 		float ay = gHeight - float(y);
 
+		if (figureSelected == NONE)
+			pick(int(ax), int(ay));
+		else if (figureSelected == LINE)
+		{
+			CLine *line = new CLine();
+			line->setVertex(0, ax, ay);
+			line->setVertex(1, ax, ay);
+			figures.push_back(line);
 
-			switch (figureSelected) {
-				case LINE:
-					CLine *line = new CLine();
-					line->setVertex(0, ax, ay);
-					line->setVertex(1, ax, ay);
-					figures.push_back(line);
-					gPress = true;	
-				break;
-				case QUAD:
-					CQuad *quad = new CQuad();
-					quad->setVertex(0, ax, ay);
-					quad->setVertex(1, ax, ay);
-					figures.push_back(quad);
-					gPress = true;
-				break;
-				case CIRCLE:
+			gPress = true;
+		}
+		else if (figureSelected == QUAD)
+		{
+			CQuad *quad = new CQuad();
+			quad->setVertex(0, ax, ay);
+			quad->setVertex(1, ax, ay);
+			figures.push_back(quad);
 
-				break;
-				case NONE:
-					pick(int(ax), int(ay));
-				break;
-			}
+			gPress = true;
+		}
+		else if (figureSelected == CIRCLE)
+		{
+			CCircle *circle = new CCircle();
+			circle->setVertex(0, ax, ay);
+			circle->setVertex(1, ax, ay);
+			figures.push_back(circle);
+
+			gPress = true;
+		}
 	}
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)

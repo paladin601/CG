@@ -1,7 +1,10 @@
-﻿  Main.cpp
+﻿  Circle.cpp
+c:\users\leonardo\desktop\cg\src\circle.cpp(24): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\leonardo\desktop\cg\src\circle.cpp(26): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+  Main.cpp
   Generando código
-  3 of 166 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  3 of 173 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
-  ICG - Plantilla.vcxproj -> C:\Users\Leonardo\Desktop\ICG---Plantilla-master\x64\Release\ICG - Plantilla.exe
+  ICG - Plantilla.vcxproj -> C:\Users\Leonardo\Desktop\CG\x64\Release\ICG - Plantilla.exe

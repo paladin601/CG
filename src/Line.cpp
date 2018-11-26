@@ -41,14 +41,14 @@ void CLine::createLine(int x0, int y0, int x1, int y1)
 	dx = x1 - x0;
 	dy = y1 - y0;
 	if (dy > -1) {
-		d = dx - dy<<1;
+		d = dx - (dy<<1);
 		if (dy <= dx) {
-			IncE = -dy<<1;
+			IncE = -(dy<<1);
 			IncNE = (dx - dy)<<1;
 			for (int i = x0; i < x1; i++) {
 				if (d <= 0) {
 					d += IncNE;
-					y0 += 1;
+					y0++;
 				}
 				else {
 					d += IncE;
@@ -56,12 +56,12 @@ void CLine::createLine(int x0, int y0, int x1, int y1)
 				glVertex2i(i, y0);
 			}
 		}else{
-			IncE = -dx<<1;
+			IncE = -(dx<<1);
 			IncNE =(dy - dx)<<1;
 			for (int i = y0; i < y1; i++) {
 				if (d <= 0) {
 					d += IncNE;
-					x0 += 1;
+					x0++;
 				}
 				else {
 					d += IncE;
@@ -71,16 +71,16 @@ void CLine::createLine(int x0, int y0, int x1, int y1)
 		}
 	}
 	else {
-		d = dx + dy<<1;
+		d = dx + (dy<<1);
 		if (-dy <= dx) {
-			IncE = dy<<1;
+			IncE = (dy<<1);
 			IncNE = (dx + dy)<<1;
 			x0 = x0;
 			y0 = y0;
 			for (int i = x0; i < x1; i++) {
 				if (d <= 0) {
 					d += IncNE;
-					y0 -= 1;
+					y0--;
 				}
 				else {
 					d += IncE;
@@ -89,12 +89,12 @@ void CLine::createLine(int x0, int y0, int x1, int y1)
 			}
 		}
 		else {
-			IncE = -dx<<1;
+			IncE = -(dx<<1);
 			IncNE = (-dy - dx)<<1;
 			for (int i = y0; i > y1; i--) {
 				if (d <= 0) {
 					d += IncNE;
-					x0 += 1;
+					x0++;
 				}
 				else {
 					d += IncE;
