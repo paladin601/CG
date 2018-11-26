@@ -32,7 +32,7 @@ void CQuad::display()
 
 void CQuad::createQuad(int x0, int y0, int x1, int y1) {
 	int i, j;
-	for (i = x0; i <=x1; i++) {
+	for (i = x0; i <= x1; i++) {
 		glVertex2i(i, y0);
 		glVertex2i(i, y1);
 	}
@@ -41,7 +41,7 @@ void CQuad::createQuad(int x0, int y0, int x1, int y1) {
 		y1 = y0;
 		y0 = j;
 	}
-	for (i = y0+1; i < y1; i++) {
+	for (i = y0 + 1; i < y1; i++) {
 		glVertex2i(x0, i);
 		glVertex2i(x1, i);
 	}

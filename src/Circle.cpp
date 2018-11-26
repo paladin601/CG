@@ -22,7 +22,7 @@ void CCircle::display()
 	float rx, ry;
 
 	dx = mVertices[1][0] - mVertices[0][0];
-	rx=(float)abs(dx);
+	rx = (float)abs(dx);
 	dy = mVertices[1][1] - mVertices[0][1];
 	ry = (float)abs(dy);
 	if (rx > ry) {

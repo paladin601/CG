@@ -7,7 +7,8 @@ enum FigureType
 	NONE,
 	LINE,
 	QUAD,
-	CIRCLE
+	CIRCLE,
+	TRIANGLE
 };
 
 class CFigure

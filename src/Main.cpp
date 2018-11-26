@@ -2,6 +2,7 @@
 #include "Line.h"
 #include "Quad.h"
 #include "Circle.h"
+#include "Triangle.h"
 #include "UserInterface.h"
 
 using std::vector;
@@ -43,13 +44,19 @@ void pick(int x, int y)
 
 			int type = figures[picked]->getType();
 
-			if (type == LINE)
+			if (type == LINE) {
 				userInterface->setFigureType("Line");
-			else
-				if(type ==QUAD)
+			}
+			else if (type == QUAD) {
 				userInterface->setFigureType("Quad");
-				else
-					userInterface->setFigureType("Circle");
+			}
+			else if (type == CIRCLE) {
+				userInterface->setFigureType("Circle");
+			}
+			else if (type == TRIANGLE) {
+				userInterface->setFigureType("Triangle");
+			}
+
 			break;
 		}
 	}
@@ -119,6 +126,10 @@ void keyInput(GLFWwindow *window, int key, int scancode, int action, int mods)
 			figureSelected = CIRCLE;
 			userInterface->hide();
 			break;
+		case GLFW_KEY_T:
+			figureSelected = TRIANGLE;
+			userInterface->hide();
+			break;
 		}
 	}
 }
@@ -162,6 +173,16 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 			circle->setVertex(0, ax, ay);
 			circle->setVertex(1, ax, ay);
 			figures.push_back(circle);
+
+			gPress = true;
+		}
+		else if (figureSelected == TRIANGLE)
+		{
+			CTriangle *triangle = new CTriangle();
+			triangle->setVertex(0, ax, ay);
+			triangle->setVertex(1, ax, ay);
+			triangle->setVertex(2, ax, ay);
+			figures.push_back(triangle);
 
 			gPress = true;
 		}

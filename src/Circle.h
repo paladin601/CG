@@ -8,6 +8,6 @@ public:
 	CCircle();
 	~CCircle();
 	void display();
-	void createCircle(int x0, int y0, int r);
-	void paintPoints(int x0, int y0, int x1, int y1);
+	void paintPoints(int, int, int, int);
+	void createCircle(int, int, int);
 };

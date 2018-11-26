@@ -8,5 +8,5 @@ public:
 	CTriangle();
 	~CTriangle();
 	void display();
-	void createTriangle(int, int, int, int ,int,int);
+	void createTriangle(int, int, int, int, int, int);
 };
