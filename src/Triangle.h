@@ -9,4 +9,5 @@ public:
 	~CTriangle();
 	void display();
 	void createTriangle(int, int, int, int, int, int);
+	void createLine(int, int, int, int);
 };

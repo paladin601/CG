@@ -21,10 +21,8 @@ CLine::~CLine()
 void CLine::display()
 {
 	glColor3fv(mColor);
-
 	glBegin(GL_POINTS);
 	createLine((int)mVertices[0][0], (int)mVertices[0][1], (int)mVertices[1][0], (int)mVertices[1][1]);
-
 	glEnd();
 }
 
