@@ -19,17 +19,17 @@ void CCircle::display()
 	glColor3fv(mColor);
 	glBegin(GL_POINTS);
 	int dx, dy;
-	float rx, ry;
+	int rx, ry;
 
-	dx = mVertices[1][0] - mVertices[0][0];
-	rx = (float)abs(dx);
-	dy = mVertices[1][1] - mVertices[0][1];
-	ry = (float)abs(dy);
+	dx = (int)(mVertices[1][0] - mVertices[0][0]);
+	rx = abs(dx);
+	dy = (int)(mVertices[1][1] - mVertices[0][1]);
+	ry = abs(dy);
 	if (rx > ry) {
-		createCircle((int)mVertices[0][0], (int)mVertices[0][1], (int)rx);
+		createCircle((int)mVertices[0][0], (int)mVertices[0][1], rx);
 	}
 	else {
-		createCircle((int)mVertices[0][0], (int)mVertices[0][1], (int)ry);
+		createCircle((int)mVertices[0][0], (int)mVertices[0][1], ry);
 	}
 	glEnd();
 
