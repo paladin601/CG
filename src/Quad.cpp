@@ -1,11 +1,13 @@
 #include "Quad.h"
-#include "Line.h"
 
 CQuad::CQuad()
 {
 	mVertices = new float*[2];
-	for (int i = 0; i < 2; ++i)
+	boundingBox = new float*[2];
+	for (int i = 0; i < 2; ++i) {
 		mVertices[i] = new float[2];
+		boundingBox[i] = new float[2];
+	}
 
 	mType = QUAD;
 }
@@ -21,6 +23,8 @@ void CQuad::display()
 	glColor3fv(mColor);
 
 	glBegin(GL_POINTS);
+	this->setBoundingBox(0, MIN(mVertices[0][0], mVertices[1][0]), MIN(mVertices[0][1], mVertices[1][1]));
+	this->setBoundingBox(1, MAX(mVertices[0][0], mVertices[1][0]), MAX(mVertices[0][1], mVertices[1][1]));
 	if (mVertices[0][0] > mVertices[1][0]) {
 		createQuad((int)mVertices[1][0], (int)mVertices[1][1], (int)mVertices[0][0], (int)mVertices[0][1]);
 	}

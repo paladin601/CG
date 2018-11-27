@@ -16,6 +16,12 @@ void CFigure::setVertex(int id, float x, float y)
 	mVertices[id][1] = y;
 }
 
+void CFigure::setBoundingBox(int id, float x, float y)
+{
+	boundingBox[id][0] = x;
+	boundingBox[id][1] = y;
+}
+
 void CFigure::setColor(float r, float g, float b)
 {
 	mColor[0] = r;
@@ -31,6 +37,11 @@ int CFigure::getType()
 float* CFigure::getVertex(int id)
 {
 	return mVertices[id];
+}
+
+float* CFigure::getBoundingBox(int id)
+{
+	return boundingBox[id];
 }
 
 float* CFigure::getColor()

@@ -3,10 +3,13 @@
 
 CTriangle::CTriangle()
 {
-	mVertices = new float*[3];
-	for (int i = 0; i < 3; ++i)
+	mVertices = new float*[2];
+	boundingBox = new float*[2];
+	for (int i = 0; i < 2; ++i) {
+		boundingBox[i] = new float[2];
 		mVertices[i] = new float[2];
-
+	}
+	mVertices[2] = new float[2];
 	mType = TRIANGLE;
 }
 
@@ -21,6 +24,15 @@ void CTriangle::display()
 	glColor3fv(mColor);
 
 	glBegin(GL_POINTS);
+	float mx0, my0;
+
+	mx0 = MIN(mVertices[0][0], mVertices[1][0]);
+	my0 = MIN(mVertices[0][1], mVertices[1][1]);
+	this->setBoundingBox(0, MIN(mx0, mVertices[2][0]), MIN(my0, mVertices[2][1]));
+	mx0 = MAX(mVertices[0][0], mVertices[1][0]);
+	my0 = MAX(mVertices[0][1], mVertices[1][1]);
+	this->setBoundingBox(1, MAX(mx0, mVertices[2][0]), MAX(my0, mVertices[2][1]));
+
 	createTriangle((int)mVertices[0][0], (int)mVertices[0][1], (int)mVertices[1][0], (int)mVertices[1][1], (int)mVertices[2][0], (int)mVertices[2][1]);
 	glEnd();
 }

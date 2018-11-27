@@ -24,18 +24,18 @@ void pick(int x, int y)
 
 	for (unsigned int i = 0; i < figures.size(); i++)
 	{
-		float *v1 = figures[i]->getVertex(0);
-		float *v2 = figures[i]->getVertex(1);
+		float *v1 = figures[i]->getBoundingBox(0);
+		float *v2 = figures[i]->getBoundingBox(1);
 		float max[2];
 		float min[2];
 
 		// This should be precalculated
 
-		max[0] = MAX(v1[0], v2[0]);
-		max[1] = MAX(v1[1], v2[1]);
+		max[0] =  v2[0];
+		max[1] =  v2[1];
 
-		min[0] = MIN(v1[0], v2[0]);
-		min[1] = MIN(v1[1], v2[1]);
+		min[0] = v1[0];
+		min[1] = v1[1];
 
 		if (x >= min[0] && x <= max[0] && y >= min[1] && y <= max[1])
 		{

@@ -1,9 +1,6 @@
 #include "../headers/glfw3.h"
 #include <vector>
 
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
-
 void pick(int x, int y);
 
 void updateUserInterface();
