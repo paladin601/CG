@@ -186,19 +186,13 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 				tpicked = 1;
 			}
 			if (tpicked == 1) {
-				CLine *line = new CLine();
-				line->setVertex(0, vx0, vy0);
-				line->setVertex(1, ax, ay);
-				figures.push_back(line);
-				gPress = true;
 				vx1 = ax;
 				vy1 = ay;
 				tpicked = 2;
 			}
 			else {
-				figures.pop_back();
 				CTriangle *triangle = new CTriangle();
-				triangle->setVertex(0, vx0, vy0);
+				triangle->setVertex(0, vx0+1, vy0);
 				triangle->setVertex(1, vx1, vy0);
 				triangle->setVertex(2, ax, ay);
 				figures.push_back(triangle);

@@ -29,10 +29,7 @@ void CTriangle::createTriangle(int x0, int y0, int x1, int y1, int x2, int y2) {
 	CLine *line1 = new CLine();
 
 	line1->createLine(x0, y0, x1+1, y1);
-
 	line1->createLine(x0 + 1, y0 , x2, y2);
-
 	line1->createLine(x1 + 1, y1 , x2 - 1, y2 );
-
 
 }
