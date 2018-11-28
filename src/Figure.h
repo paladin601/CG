@@ -19,6 +19,7 @@ class CFigure
 protected:
 	float **mVertices, **boundingBox , mColor[3];
 	int mType;
+	bool fill;
 
 public:
 	CFigure();

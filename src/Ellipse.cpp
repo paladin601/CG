@@ -15,8 +15,10 @@ CEllipse::CEllipse()
 
 CEllipse::~CEllipse()
 {
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < 2; ++i) {
 		delete[] mVertices[i];
+		delete[] boundingBox[i];
+	}
 }
 
 void CEllipse::display()

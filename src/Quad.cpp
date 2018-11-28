@@ -14,14 +14,16 @@ CQuad::CQuad()
 
 CQuad::~CQuad()
 {
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < 2; ++i) {
 		delete[] mVertices[i];
+		delete[] boundingBox[i];
+	}
 }
 
 void CQuad::display()
 {
-	glColor3fv(mColor);
 
+	glColor3fv(mColor);
 	glBegin(GL_POINTS);
 	this->setBoundingBox(0, MIN(mVertices[0][0], mVertices[1][0]), MIN(mVertices[0][1], mVertices[1][1]));
 	this->setBoundingBox(1, MAX(mVertices[0][0], mVertices[1][0]), MAX(mVertices[0][1], mVertices[1][1]));

@@ -17,8 +17,10 @@ CLine::CLine()
 
 CLine::~CLine()
 {
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < 2; ++i) {
 		delete[] mVertices[i];
+		delete[] boundingBox[i];
+	}
 }
 
 void CLine::display()

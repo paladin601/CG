@@ -16,6 +16,7 @@ vector <CFigure *> figures;
 FigureType figureSelected;
 int picked;
 int tpicked = 0;
+bool activeBox = false;
 float vx0, vy0, vx1, vy1;
 
 void pick(int x, int y)
@@ -44,7 +45,7 @@ void pick(int x, int y)
 
 			userInterface->setFigureColor(figures[picked]->getColor());
 			userInterface->show();
-
+			paintBoundingBox(min, max);
 			int type = figures[picked]->getType();
 
 			if (type == LINE) {
@@ -65,6 +66,15 @@ void pick(int x, int y)
 			break;
 		}
 	}
+}
+
+void paintBoundingBox(float *min, float *max) {
+	activeBox = true;
+	CQuad *quad = new CQuad();
+	quad->setVertex(0, min[0]-1, min[1]-1);
+	quad->setVertex(1, max[0]+1, max[1]+1);
+	quad->setColor(1.0, 0, 0);
+	figures.push_back(quad);
 }
 
 void updateUserInterface()
@@ -153,6 +163,10 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !gPress)
 	{
+		if (activeBox) {
+			figures.pop_back();
+			activeBox = false;
+		}
 		float ax = float(x);
 		float ay = gHeight - float(y);
 

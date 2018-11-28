@@ -5,6 +5,8 @@ void pick(int x, int y);
 
 void updateUserInterface();
 
+void paintBoundingBox(float *, float*);
+
 void display();
 
 void reshape(GLFWwindow *window, int width, int height);

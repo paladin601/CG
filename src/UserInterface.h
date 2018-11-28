@@ -14,6 +14,7 @@ private:
 	static CUserInterface * mInterface; //Holds the instance of the class
 	TwBar *mUserInterface;
 	float mFigureColor[3];
+	bool fill;
 	string mFigureType;
 
 public:
