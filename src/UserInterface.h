@@ -26,7 +26,9 @@ public:
 	void hide();
 	void setFigureColor(float *color);
 	void setFigureType(string type);
+	void setFill(bool);
 	float* getFigureColor();
+	bool getFill();
 
 private:
 	///Private constructor

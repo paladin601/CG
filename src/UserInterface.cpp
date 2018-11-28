@@ -32,7 +32,7 @@ CUserInterface::CUserInterface()
 
 	TwAddVarRO(mUserInterface, "meshType", TW_TYPE_STDSTRING, &mFigureType, "label='Type' readonly=true");
 	TwAddVarRW(mUserInterface, "color", TW_TYPE_COLOR3F, &mFigureColor[0], "label = 'Color'");
-	TwAddButton(mUserInterface, "comment1", NULL, NULL, " label='Life is like a box a chocolates' ");
+	TwAddVarRW(mUserInterface, "b", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
 }
 
 CUserInterface::~CUserInterface()
@@ -65,8 +65,15 @@ void CUserInterface::setFigureType(string type)
 {
 	mFigureType = type;
 }
+void CUserInterface::setFill(bool a) {
+	fill = a;
+}
 
 float* CUserInterface::getFigureColor()
 {
 	return mFigureColor;
+}
+
+bool CUserInterface::getFill() {
+	return fill;
 }

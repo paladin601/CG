@@ -29,12 +29,14 @@ public:
 	void setBoundingBox(int id, float x, float y);
 	void setColor(float r, float g, float b);
 	void setDelete();
+	void setFill(bool);
 	virtual void display() = 0;
 	int getType();
 	float* getVertex(int id);
 	float* getBoundingBox(int id);
 	float* getColor();
 	bool getDelete();
+	bool getFill();
 	int mult(int,int);
 	int pow(int);
 };

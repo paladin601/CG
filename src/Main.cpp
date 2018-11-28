@@ -46,6 +46,7 @@ void pick(int x, int y)
 			userInterface->setFigureColor(figures[picked]->getColor());
 			userInterface->show();
 			paintBoundingBox(min, max);
+			userInterface->setFill(figures[picked]->getFill());
 			int type = figures[picked]->getType();
 
 			if (type == LINE) {
@@ -80,7 +81,6 @@ void paintBoundingBox(float *min, float *max) {
 void delfig(int x,int y) {
 	picked = -1;
 	userInterface->hide();
-
 	for (unsigned int i = 0; i < figures.size(); i++)
 	{
 		float *v1 = figures[i]->getBoundingBox(0);
@@ -110,6 +110,7 @@ void updateUserInterface()
 	{
 		float * color = userInterface->getFigureColor();
 		figures[picked]->setColor(color[0], color[1], color[2]);
+		figures[picked]->setFill(userInterface->getFill());
 	}
 }
 
