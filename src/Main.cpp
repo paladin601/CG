@@ -203,6 +203,8 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !gPress)
 	{
 		if (activeBox) {
+			CFigure *f1 = figures.back();
+			f1->~CFigure();
 			figures.pop_back();
 			activeBox = false;
 		}

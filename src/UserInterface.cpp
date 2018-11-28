@@ -25,14 +25,14 @@ CUserInterface::CUserInterface()
 	TwDefine("Figure refresh = '0.0001f'");
 	TwDefine("Figure resizable = false");
 	TwDefine("Figure fontresizable = false");
-	TwDefine("Figure movable = false");
+	TwDefine("Figure movable = true");
 	TwDefine("Figure visible = false");
 	TwDefine("Figure position = '20 20'");
 	TwDefine("Figure size = '220 320'");
 
 	TwAddVarRO(mUserInterface, "meshType", TW_TYPE_STDSTRING, &mFigureType, "label='Type' readonly=true");
 	TwAddVarRW(mUserInterface, "color", TW_TYPE_COLOR3F, &mFigureColor[0], "label = 'Color'");
-	TwAddVarRW(mUserInterface, "b", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
+	TwAddVarRW(mUserInterface, "fill", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
 }
 
 CUserInterface::~CUserInterface()
