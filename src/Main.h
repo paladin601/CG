@@ -3,6 +3,8 @@
 
 void pick(int x, int y);
 
+void delfig(int, int);
+
 void updateUserInterface();
 
 void paintBoundingBox(float *, float*);

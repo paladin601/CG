@@ -4,11 +4,13 @@
 CFigure::CFigure()
 {
 	mColor[0] = mColor[1] = mColor[2] = 1.0f;
+	del = false;
 }
 
 CFigure::~CFigure()
 {
 	delete[] mVertices;
+	delete[] boundingBox;
 }
 
 void CFigure::setVertex(int id, float x, float y)
@@ -29,6 +31,9 @@ void CFigure::setColor(float r, float g, float b)
 	mColor[1] = g;
 	mColor[2] = b;
 }
+void CFigure::setDelete() {
+	del = true;
+}
 
 int CFigure::getType()
 {
@@ -48,6 +53,10 @@ float* CFigure::getBoundingBox(int id)
 float* CFigure::getColor()
 {
 	return mColor;
+}
+
+bool CFigure::getDelete() {
+	return del;
 }
 
 int CFigure::mult(int num,int num2) {

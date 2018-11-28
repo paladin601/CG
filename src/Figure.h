@@ -11,7 +11,8 @@ enum FigureType
 	QUAD,
 	CIRCLE,
 	TRIANGLE,
-	ELLIPSE
+	ELLIPSE,
+	DELETE
 };
 
 class CFigure
@@ -19,7 +20,7 @@ class CFigure
 protected:
 	float **mVertices, **boundingBox , mColor[3];
 	int mType;
-	bool fill;
+	bool fill,del;
 
 public:
 	CFigure();
@@ -27,11 +28,13 @@ public:
 	void setVertex(int id, float x, float y);
 	void setBoundingBox(int id, float x, float y);
 	void setColor(float r, float g, float b);
+	void setDelete();
 	virtual void display() = 0;
 	int getType();
 	float* getVertex(int id);
 	float* getBoundingBox(int id);
 	float* getColor();
+	bool getDelete();
 	int mult(int,int);
 	int pow(int);
 };

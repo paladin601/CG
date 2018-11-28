@@ -77,6 +77,33 @@ void paintBoundingBox(float *min, float *max) {
 	figures.push_back(quad);
 }
 
+void delfig(int x,int y) {
+	picked = -1;
+	userInterface->hide();
+
+	for (unsigned int i = 0; i < figures.size(); i++)
+	{
+		float *v1 = figures[i]->getBoundingBox(0);
+		float *v2 = figures[i]->getBoundingBox(1);
+		float max[2];
+		float min[2];
+
+		// This should be precalculated
+
+		max[0] = v2[0];
+		max[1] = v2[1];
+
+		min[0] = v1[0];
+		min[1] = v1[1];
+
+		if (x >= min[0] && x <= max[0] && y >= min[1] && y <= max[1])
+		{
+			figures[i]->setDelete();
+			break;
+		}
+	}
+}
+
 void updateUserInterface()
 {
 	if (picked > -1)
@@ -92,7 +119,14 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (unsigned int i = 0; i < figures.size(); i++)
-		figures[i]->display();
+		if (!figures[i]->getDelete()) {
+			figures[i]->display();
+		}
+		else {
+			figures[i]->~CFigure();
+			figures.erase(figures.begin()+i);
+			int x = 2;
+		}
 }
 
 void reshape(GLFWwindow *window, int width, int height)
@@ -149,6 +183,10 @@ void keyInput(GLFWwindow *window, int key, int scancode, int action, int mods)
 			figureSelected = ELLIPSE;
 			userInterface->hide();
 			break;
+		case GLFW_KEY_D:
+			figureSelected = DELETE;
+			userInterface->hide();
+			break;
 		}
 	}
 }
@@ -172,6 +210,10 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 
 		if (figureSelected == NONE)
 			pick(int(ax), int(ay));
+		else if (figureSelected == DELETE)
+		{
+			delfig(int(ax), int(ay));
+		}
 		else if (figureSelected == LINE)
 		{
 			CLine *line = new CLine();
