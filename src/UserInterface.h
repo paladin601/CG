@@ -13,7 +13,7 @@ class CUserInterface
 private:
 	static CUserInterface * mInterface; //Holds the instance of the class
 	TwBar *mUserInterface;
-	float mFigureColor[3];
+	float mFigureColor[3],mFigureColorFill[3];
 	bool fill;
 	string mFigureType;
 
@@ -25,9 +25,11 @@ public:
 	void show();
 	void hide();
 	void setFigureColor(float *color);
+	void setFigureColorFill(float *color);
 	void setFigureType(string type);
 	void setFill(bool);
 	float* getFigureColor();
+	float* getFigureColorFill();
 	bool getFill();
 
 private:

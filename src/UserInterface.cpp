@@ -31,8 +31,10 @@ CUserInterface::CUserInterface()
 	TwDefine("Figure size = '220 320'");
 
 	TwAddVarRO(mUserInterface, "meshType", TW_TYPE_STDSTRING, &mFigureType, "label='Type' readonly=true");
-	TwAddVarRW(mUserInterface, "color", TW_TYPE_COLOR3F, &mFigureColor[0], "label = 'Color'");
+	TwAddVarRW(mUserInterface, "color", TW_TYPE_COLOR3F, &mFigureColor[0], "label = 'Color de Borde:'");
+
 	TwAddVarRW(mUserInterface, "fill", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
+	TwAddVarRW(mUserInterface, "colorFill", TW_TYPE_COLOR3F, &mFigureColorFill[0], "label = 'Color de Relleno:'");
 }
 
 CUserInterface::~CUserInterface()
@@ -61,6 +63,13 @@ void CUserInterface::setFigureColor(float *color)
 	mFigureColor[2] = color[2];
 }
 
+void CUserInterface::setFigureColorFill(float *color)
+{
+	mFigureColorFill[0] = color[0];
+	mFigureColorFill[1] = color[1];
+	mFigureColorFill[2] = color[2];
+}
+
 void CUserInterface::setFigureType(string type)
 {
 	mFigureType = type;
@@ -72,6 +81,11 @@ void CUserInterface::setFill(bool a) {
 float* CUserInterface::getFigureColor()
 {
 	return mFigureColor;
+}
+
+float* CUserInterface::getFigureColorFill()
+{
+	return mFigureColorFill;
 }
 
 bool CUserInterface::getFill() {

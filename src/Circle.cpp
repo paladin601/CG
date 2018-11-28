@@ -70,3 +70,7 @@ void CCircle::paintPoints(int x0, int y0, int x1, int y1) {
 	glVertex2i(x1 + y0, y1 - x0);
 	glVertex2i(x1 - y0, y1 - x0);
 }
+
+void CCircle::drawLine(int x0, int y, int x1) {
+
+}

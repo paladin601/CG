@@ -4,6 +4,7 @@
 CFigure::CFigure()
 {
 	mColor[0] = mColor[1] = mColor[2] = 1.0f;
+	mColorFill[0] = mColorFill[1] = mColorFill[2] = 1.0f;
 	fill = false;
 	del = false;
 }
@@ -39,6 +40,12 @@ void CFigure::setDelete() {
 void CFigure::setFill(bool a) {
 	fill = a;
 }
+void CFigure::setColorFill(float r, float g, float b)
+{
+	mColorFill[0] = r;
+	mColorFill[1] = g;
+	mColorFill[2] = b;
+}
 
 int CFigure::getType()
 {
@@ -66,6 +73,11 @@ bool CFigure::getDelete() {
 
 bool CFigure::getFill() {
 	return fill;
+}
+
+float* CFigure::getColorFill()
+{
+	return mColorFill;
 }
 
 int CFigure::mult(int num,int num2) {

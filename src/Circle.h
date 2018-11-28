@@ -10,4 +10,5 @@ public:
 	void display();
 	void paintPoints(int, int, int, int);
 	void createCircle(int, int, int);
+	void drawLine(int, int, int);
 };

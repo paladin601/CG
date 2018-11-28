@@ -47,6 +47,7 @@ void pick(int x, int y)
 			userInterface->show();
 			paintBoundingBox(min, max);
 			userInterface->setFill(figures[picked]->getFill());
+			userInterface->setFigureColorFill(figures[picked]->getColorFill());
 			int type = figures[picked]->getType();
 
 			if (type == LINE) {
@@ -109,7 +110,9 @@ void updateUserInterface()
 	if (picked > -1)
 	{
 		float * color = userInterface->getFigureColor();
+		float * colorFill = userInterface->getFigureColorFill();
 		figures[picked]->setColor(color[0], color[1], color[2]);
+		figures[picked]->setColorFill(colorFill[0], colorFill[1], colorFill[2]);
 		figures[picked]->setFill(userInterface->getFill());
 	}
 }

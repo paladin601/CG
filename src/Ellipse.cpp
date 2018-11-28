@@ -23,7 +23,6 @@ CEllipse::~CEllipse()
 
 void CEllipse::display()
 {
-	glColor3fv(mColor);
 	glBegin(GL_POINTS);
 	int x0, y0, dx, dy, r;
 	x0 = (int)mVertices[0][0];
@@ -83,15 +82,22 @@ void CEllipse::createElipse(int x0, int y0, int a, int b, int r) {
 
 void CEllipse::paintPoints(int x, int y, int x0, int y0)
 {
+	glColor3fv(mColor);
 	glVertex2i(x0 + x, y0 + y);
 	glVertex2i(x0 + x, y0 - y);
 	glVertex2i(x0 - x, y0 + y);
 	glVertex2i(x0 - x, y0 - y);
+	if (fill)
+	{
+		drawLine(x0 - x, y0 + y-1, x0 + x);
+		drawLine(x0 - x, y0 - y+1, x0 + x);
+	}
 }
 
-void CEllipse::drawLine(int xmin, int y, int xmax)
+void CEllipse::drawLine(int x0, int y, int x1)
 {
-	for (int i = xmin; i < xmax; i++)
+	glColor3fv(mColorFill);
+	for (int i = x0; i <= x1; i++)
 	{
 		glVertex2i(i, y);
 	}
