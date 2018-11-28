@@ -10,7 +10,8 @@ enum FigureType
 	LINE,
 	QUAD,
 	CIRCLE,
-	TRIANGLE
+	TRIANGLE,
+	ELLIPSE
 };
 
 class CFigure
@@ -30,4 +31,6 @@ public:
 	float* getVertex(int id);
 	float* getBoundingBox(int id);
 	float* getColor();
+	int mult(int,int);
+	int pow(int);
 };

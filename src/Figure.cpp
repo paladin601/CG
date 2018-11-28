@@ -1,4 +1,5 @@
 #include "Figure.h"
+#include <stdlib.h>
 
 CFigure::CFigure()
 {
@@ -47,4 +48,24 @@ float* CFigure::getBoundingBox(int id)
 float* CFigure::getColor()
 {
 	return mColor;
+}
+
+int CFigure::mult(int num,int num2) {
+	int result = 0;
+	if (num2 > 0) {
+		for (int i = 0; i < num2; i++) {
+			result += num;
+		}
+	}
+	else {
+		num2 = abs(num2);
+		for (int i = 0; i < num2; i++) {
+			result -= num;
+		}
+	}
+	return result;
+}
+
+int CFigure::pow(int num) {
+	return mult(num, num);
 }

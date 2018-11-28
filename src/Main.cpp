@@ -3,6 +3,7 @@
 #include "Quad.h"
 #include "Circle.h"
 #include "Triangle.h"
+#include "Ellipse.h"
 #include "UserInterface.h"
 
 using std::vector;
@@ -58,7 +59,9 @@ void pick(int x, int y)
 			else if (type == TRIANGLE) {
 				userInterface->setFigureType("Triangle");
 			}
-
+			else if (type == ELLIPSE) {
+				userInterface->setFigureType("Ellipse");
+			}
 			break;
 		}
 	}
@@ -132,6 +135,10 @@ void keyInput(GLFWwindow *window, int key, int scancode, int action, int mods)
 			figureSelected = TRIANGLE;
 			userInterface->hide();
 			break;
+		case GLFW_KEY_E:
+			figureSelected = ELLIPSE;
+			userInterface->hide();
+			break;
 		}
 	}
 }
@@ -200,6 +207,15 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 
 				gPress = true;
 			}
+		}
+		else if (figureSelected == ELLIPSE)
+		{
+			CEllipse *ellipse = new CEllipse();
+			ellipse->setVertex(0, ax, ay);
+			ellipse->setVertex(1, ax, ay);
+			figures.push_back(ellipse);
+
+			gPress = true;
 		}
 	}
 

@@ -23,15 +23,18 @@ void CCircle::display()
 	glBegin(GL_POINTS);
 	int dx, dy;
 	int rx, ry;
-
 	dx = (int)(mVertices[1][0] - mVertices[0][0]);
 	rx = abs(dx);
 	dy = (int)(mVertices[1][1] - mVertices[0][1]);
 	ry = abs(dy);
 	if (rx > ry) {
+		this->setBoundingBox(0, mVertices[0][0] - rx, mVertices[0][1] - rx);
+		this->setBoundingBox(1, mVertices[0][0] + rx, mVertices[0][1] + rx);
 		createCircle((int)mVertices[0][0], (int)mVertices[0][1], rx);
 	}
 	else {
+		this->setBoundingBox(0, mVertices[0][0] - ry, mVertices[0][1] - ry);
+		this->setBoundingBox(1, mVertices[0][0] + ry, mVertices[0][1] + ry);
 		createCircle((int)mVertices[0][0], (int)mVertices[0][1], ry);
 	}
 	glEnd();
