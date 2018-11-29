@@ -19,6 +19,7 @@ FigureType figureSelected;
 int picked;
 int tpicked = 0;
 bool activeBox = false;
+bool drag = false;
 float vx0, vy0, vx1, vy1;
 
 void pick(int x, int y)
@@ -51,7 +52,7 @@ void pick(int x, int y)
 			}
 		}
 	}
-	if (picked>-1)
+	if (picked>-1 && !drag)
 	{
 		userInterface->setFigureColor(figures[picked]->getColor());
 		userInterface->show();
@@ -89,6 +90,53 @@ void paintBoundingBox(float *min, float *max) {
 	figures.push_back(quad);
 }
 
+void translateFigure(float x, float y)
+{
+	picked = -1;
+	userInterface->hide();
+	int zIndex = -1500;
+
+	for (unsigned int i = 0; i < figures.size(); i++)
+	{
+		float *v1 = figures[i]->getBoundingBox(0);
+		float *v2 = figures[i]->getBoundingBox(1);
+		// This should be precalculated
+
+
+		if (x >= v1[0] && x <= v2[0] && y >= v1[1] && y <= v2[1])
+		{
+			int aux = figures[i]->getZIndex();
+			if (aux > zIndex) {
+
+				zIndex = aux;
+				picked = i;
+			}
+		}
+	}
+	if (picked > -1 && drag)
+	{
+		userInterface->setFigureColor(figures[picked]->getColor());
+		userInterface->setFigureColorFill(figures[picked]->getColorFill());
+		userInterface->setFill(figures[picked]->getFill());
+		userInterface->setZIndex(figures[picked]->getZIndex());
+		float *aux = figures[picked]->getMidPoint();
+		x -= aux[0];
+		y -= aux[1];
+		x /= 4;
+		y /= 4;
+
+		if (figures[picked]->getType() == TRIANGLE) {
+			figures[picked]->setTranslate(0, x, y);
+			figures[picked]->setTranslate(1, x, y);
+			figures[picked]->setTranslate(2, x, y);
+		}
+		else {
+			figures[picked]->setTranslate(0, x, y);
+			figures[picked]->setTranslate(1, x, y);
+		}
+	}
+}
+
 void delfig(int x,int y) {
 	picked = -1;
 	userInterface->hide();
@@ -110,7 +158,7 @@ void delfig(int x,int y) {
 			}
 		}
 	}
-	if (picked > -1)
+	if (picked > -1 && !drag)
 	{
 		figures[picked]->setDelete();
 		picked = -1;
@@ -119,12 +167,11 @@ void delfig(int x,int y) {
 
 void updateUserInterface()
 {
-	if (picked > -1)
+	if (picked > -1 && !drag)
 	{
 		float * color = userInterface->getFigureColor();
 		float * colorFill = userInterface->getFigureColorFill();
 		int zIndex = userInterface->getZIndex();
-		cout << zIndex<<endl;
 		figures[picked]->setColor(color[0], color[1], color[2]);
 		figures[picked]->setColorFill(colorFill[0], colorFill[1], colorFill[2]);
 		figures[picked]->setFill(userInterface->getFill());
@@ -314,8 +361,25 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 		}
 	}
 
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS ) {
+		if (activeBox) {
+			CFigure *f1 = figures.back();
+			figures.pop_back();
+			f1->~CFigure();
+			activeBox = false;
+			picked = -1;
+		}
+		drag = true;
+		float ax = float(x);
+		float ay = gHeight - float(y);
+		translateFigure(ax, ay);
+	}
+
+	if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT) && action == GLFW_RELEASE) {
+		picked = -1;
 		gPress = false;
+		drag = false;
+	}
 }
 
 void cursorPos(GLFWwindow* window, double x, double y)

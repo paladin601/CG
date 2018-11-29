@@ -52,6 +52,11 @@ void CFigure::setZIndex(int a) {
 	zIndex = a;
 }
 
+void CFigure::setTranslate(int id, float x, float y) {
+	mVertices[id][0] += x;
+	mVertices[id][1] += y;
+}
+
 int CFigure::getType()
 {
 	return mType;
@@ -86,6 +91,15 @@ float* CFigure::getColorFill(){
 
 int CFigure::getZIndex() {
 	return zIndex;
+}
+
+float* CFigure::getMidPoint() {
+	float aux[1][2];
+	aux[0][0] = boundingBox[0][0] - boundingBox[1][0];
+	aux[0][1] = boundingBox[0][1] - boundingBox[1][1];
+	aux[0][0] = boundingBox[0][0] - aux[0][0];
+	aux[0][1] = boundingBox[0][1] - aux[0][1];
+	return aux[0];
 }
 
 int CFigure::mult(int num,int num2) {

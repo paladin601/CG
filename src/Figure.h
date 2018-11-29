@@ -33,6 +33,7 @@ public:
 	void setFill(bool);
 	void setColorFill(float r, float g, float b);
 	void setZIndex(int);
+	void setTranslate(int, float, float);
 	virtual void display() = 0;
 	int getType();
 	float* getVertex(int id);
@@ -42,6 +43,7 @@ public:
 	int getZIndex();
 	bool getDelete();
 	bool getFill();
+	float* getMidPoint();
 	int mult(int,int);
 	int pow(int);
 };
