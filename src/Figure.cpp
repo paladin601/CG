@@ -3,6 +3,7 @@
 
 CFigure::CFigure()
 {
+	zIndex = 0;
 	mColor[0] = mColor[1] = mColor[2] = 1.0f;
 	mColorFill[0] = mColorFill[1] = mColorFill[2] = 1.0f;
 	fill = false;
@@ -47,6 +48,10 @@ void CFigure::setColorFill(float r, float g, float b)
 	mColorFill[2] = b;
 }
 
+void CFigure::setZIndex(int a) {
+	zIndex = a;
+}
+
 int CFigure::getType()
 {
 	return mType;
@@ -75,9 +80,12 @@ bool CFigure::getFill() {
 	return fill;
 }
 
-float* CFigure::getColorFill()
-{
+float* CFigure::getColorFill(){
 	return mColorFill;
+}
+
+int CFigure::getZIndex() {
+	return zIndex;
 }
 
 int CFigure::mult(int num,int num2) {

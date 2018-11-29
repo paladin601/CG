@@ -21,7 +21,6 @@ CCircle::~CCircle()
 }
 void CCircle::display()
 {
-	glColor3fv(mColor);
 	glBegin(GL_POINTS);
 	int dx, dy;
 	int rx, ry;
@@ -61,6 +60,13 @@ void CCircle::createCircle(int x0, int y0, int r) {
 	}
 }
 void CCircle::paintPoints(int x0, int y0, int x1, int y1) {
+	if (fill) {
+		drawLine(x1 - x0, y1 + y0 - 1, x1 + x0);
+		drawLine(x1 - x0, y1 - y0 + 1, x1 + x0);
+		drawLine(x1 - y0+1, y1 + x0 - 1, x1 + y0-1);
+		drawLine(x1 - y0+1, y1 - x0 + 1, x1 + y0-1);
+	}
+	glColor3fv(mColor);
 	glVertex2i(x1 + x0, y1 + y0);
 	glVertex2i(x1 - x0, y1 + y0);
 	glVertex2i(x1 + x0, y1 - y0);
@@ -72,5 +78,9 @@ void CCircle::paintPoints(int x0, int y0, int x1, int y1) {
 }
 
 void CCircle::drawLine(int x0, int y, int x1) {
-
+	glColor3fv(mColorFill);
+	for (int i = x0; i <= x1; i++)
+	{
+		glVertex2i(i, y);
+	}
 }

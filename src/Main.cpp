@@ -5,7 +5,9 @@
 #include "Triangle.h"
 #include "Ellipse.h"
 #include "UserInterface.h"
+#include <iostream>
 
+using namespace std;
 using std::vector;
 
 GLFWwindow *gWindow;
@@ -23,49 +25,56 @@ void pick(int x, int y)
 {
 	picked = -1;
 	userInterface->hide();
+	float max[2];
+	float min[2];
+	int zIndex = -1500;
 
 	for (unsigned int i = 0; i < figures.size(); i++)
 	{
 		float *v1 = figures[i]->getBoundingBox(0);
 		float *v2 = figures[i]->getBoundingBox(1);
-		float max[2];
-		float min[2];
-
 		// This should be precalculated
 
-		max[0] =  v2[0];
-		max[1] =  v2[1];
 
-		min[0] = v1[0];
-		min[1] = v1[1];
-
-		if (x >= min[0] && x <= max[0] && y >= min[1] && y <= max[1])
+		if (x >= v1[0] && x <= v2[0] && y >= v1[1] && y <= v2[1])
 		{
-			picked = i;
+			int aux = figures[i]->getZIndex();
+			if (aux > zIndex) {
 
-			userInterface->setFigureColor(figures[picked]->getColor());
-			userInterface->show();
-			paintBoundingBox(min, max);
-			userInterface->setFill(figures[picked]->getFill());
-			userInterface->setFigureColorFill(figures[picked]->getColorFill());
-			int type = figures[picked]->getType();
+				max[0] =  v2[0];
+				max[1] =  v2[1];
 
-			if (type == LINE) {
-				userInterface->setFigureType("Line");
+				min[0] = v1[0];
+				min[1] = v1[1];
+				zIndex = aux;
+				picked = i;
 			}
-			else if (type == QUAD) {
-				userInterface->setFigureType("Quad");
-			}
-			else if (type == CIRCLE) {
-				userInterface->setFigureType("Circle");
-			}
-			else if (type == TRIANGLE) {
-				userInterface->setFigureType("Triangle");
-			}
-			else if (type == ELLIPSE) {
-				userInterface->setFigureType("Ellipse");
-			}
-			break;
+		}
+	}
+	if (picked>-1)
+	{
+		userInterface->setFigureColor(figures[picked]->getColor());
+		userInterface->show();
+		paintBoundingBox(min, max);
+		userInterface->setFill(figures[picked]->getFill());
+		userInterface->setFigureColorFill(figures[picked]->getColorFill());
+		userInterface->setZIndex(figures[picked]->getZIndex());
+		int type = figures[picked]->getType();
+
+		if (type == LINE) {
+			userInterface->setFigureType("Line");
+		}
+		else if (type == QUAD) {
+			userInterface->setFigureType("Quad");
+		}
+		else if (type == CIRCLE) {
+			userInterface->setFigureType("Circle");
+		}
+		else if (type == TRIANGLE) {
+			userInterface->setFigureType("Triangle");
+		}
+		else if (type == ELLIPSE) {
+			userInterface->setFigureType("Ellipse");
 		}
 	}
 }
@@ -76,32 +85,35 @@ void paintBoundingBox(float *min, float *max) {
 	quad->setVertex(0, min[0]-1, min[1]-1);
 	quad->setVertex(1, max[0]+1, max[1]+1);
 	quad->setColor(1.0, 0, 0);
+	quad->setZIndex(300);
 	figures.push_back(quad);
 }
 
 void delfig(int x,int y) {
 	picked = -1;
 	userInterface->hide();
+	int zIndex=-300;
+
 	for (unsigned int i = 0; i < figures.size(); i++)
 	{
 		float *v1 = figures[i]->getBoundingBox(0);
 		float *v2 = figures[i]->getBoundingBox(1);
-		float max[2];
-		float min[2];
-
 		// This should be precalculated
 
-		max[0] = v2[0];
-		max[1] = v2[1];
 
-		min[0] = v1[0];
-		min[1] = v1[1];
-
-		if (x >= min[0] && x <= max[0] && y >= min[1] && y <= max[1])
+		if (x >= v1[0] && x <= v2[0] && y >= v1[1] && y <= v2[1])
 		{
-			figures[i]->setDelete();
-			break;
+			int aux = figures[i]->getZIndex();
+			if (aux > zIndex) {
+				zIndex = aux;
+				picked = i;
+			}
 		}
+	}
+	if (picked > -1)
+	{
+		figures[picked]->setDelete();
+		picked = -1;
 	}
 }
 
@@ -111,15 +123,35 @@ void updateUserInterface()
 	{
 		float * color = userInterface->getFigureColor();
 		float * colorFill = userInterface->getFigureColorFill();
+		int zIndex = userInterface->getZIndex();
+		cout << zIndex<<endl;
 		figures[picked]->setColor(color[0], color[1], color[2]);
 		figures[picked]->setColorFill(colorFill[0], colorFill[1], colorFill[2]);
 		figures[picked]->setFill(userInterface->getFill());
+		figures[picked]->setZIndex(zIndex);
+		positionFigure(zIndex);
+	}
+}
+
+void positionFigure(int Zindex) {
+	int zindexver;
+	bool x = false;
+	CFigure *f1 = figures[picked];
+	figures.erase(figures.begin() + picked);
+	for (unsigned int i = 0; i < figures.size(); i++) {
+		zindexver= figures[i]->getZIndex();
+		if (Zindex < zindexver) {
+			figures.insert(figures.begin()+i,f1);
+			picked = i;
+			x = true;
+			break;
+		}
 	}
 }
 
 void display()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0);
+	glClearColor(0.5f, 0.5f, 0.5f, 0.5);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (unsigned int i = 0; i < figures.size(); i++)
@@ -207,9 +239,10 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 	{
 		if (activeBox) {
 			CFigure *f1 = figures.back();
-			f1->~CFigure();
 			figures.pop_back();
+			f1->~CFigure();
 			activeBox = false;
+			picked = -1;
 		}
 		float ax = float(x);
 		float ay = gHeight - float(y);

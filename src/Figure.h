@@ -21,6 +21,7 @@ protected:
 	float **mVertices, **boundingBox, mColor[3], mColorFill[3];
 	int mType;
 	bool fill, del;
+	int zIndex;
 
 public:
 	CFigure();
@@ -31,12 +32,14 @@ public:
 	void setDelete();
 	void setFill(bool);
 	void setColorFill(float r, float g, float b);
+	void setZIndex(int);
 	virtual void display() = 0;
 	int getType();
 	float* getVertex(int id);
 	float* getBoundingBox(int id);
 	float* getColor();
 	float* getColorFill();
+	int getZIndex();
 	bool getDelete();
 	bool getFill();
 	int mult(int,int);

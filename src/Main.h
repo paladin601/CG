@@ -1,5 +1,6 @@
 #include "../headers/glfw3.h"
 #include <vector>
+#include "Figure.h"
 
 void pick(int x, int y);
 
@@ -8,6 +9,10 @@ void delfig(int, int);
 void updateUserInterface();
 
 void paintBoundingBox(float *, float*);
+
+void pushFigure(CFigure *);
+
+void positionFigure(int);
 
 void display();
 
