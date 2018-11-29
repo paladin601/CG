@@ -3,12 +3,13 @@
 
 CBezier::CBezier()
 {
-	mVertices = new float*[2];
+	mVertices = new float*[3];
 	boundingBox = new float*[2];
 	for (int i = 0; i < 2; ++i) {
 		mVertices[i] = new float[2];
 		boundingBox[i] = new float[2];
 	}
+	mVertices[2] = new float[2];
 	mType = BEZIER;
 }
 
@@ -26,7 +27,7 @@ CBezier::~CBezier()
 void CBezier::display() {
 	glColor3fv(mColor);
 
-	glBegin(GL_LINE);
+	glBegin(GL_LINE_STRIP);
 	for (double tt = 0.0; tt < 1.0; tt += paso)
 	{
 		for (int rr = 0; rr < (numeroVertices - 1); rr++)

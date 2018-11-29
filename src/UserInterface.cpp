@@ -33,10 +33,10 @@ CUserInterface::CUserInterface()
 	TwAddVarRO(mUserInterface, "meshType", TW_TYPE_STDSTRING, &mFigureType, "label='Type' readonly=true");
 	TwAddVarRW(mUserInterface, "color", TW_TYPE_COLOR3F, &mFigureColor[0], "label = 'Color de Borde:'");
 
-	TwAddVarRW(mUserInterface, "fill", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
+	TwAddVarRW(mUserInterface, "fill", TW_TYPE_BOOLCPP, &fill, "label= Relleno key=f");
 	TwAddVarRW(mUserInterface, "colorFill", TW_TYPE_COLOR3F, &mFigureColorFill[0], "label = 'Color de Relleno:'");
-	TwAddVarRW(mUserInterface, "zIndex", TW_TYPE_UINT8, &zIndex, " keyIncr=1 ");
-	TwAddVarRW(mUserInterface, "remove", TW_TYPE_BOOLCPP, &del, "label= Eliminar");
+	TwAddVarRW(mUserInterface, "zIndex", TW_TYPE_UINT8, &zIndex, " keyIncr=+ keyDecr=- ");
+	TwAddVarRW(mUserInterface, "remove", TW_TYPE_BOOLCPP, &del, "label= Eliminar key=r");
 
 }
 

@@ -307,17 +307,11 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 				bx = ax;
 				by = ay;
 				bFirst++;
-			}
-			else if (bFirst == 1)
+			}else
 			{
-				bx2 = ax;
-				by2 = ay;
-				bFirst++;
-			}
-			else {
 				CBezier *bezier = new CBezier;
 				bezier->setVertex(0, bx, by);
-				bezier->setVertex(1, bx2, by2);
+				bezier->setVertex(1, ax, ay);
 				bezier->setVertex(2, ax, ay);
 				figures.push_back(bezier);
 				auxBezier = bezier;
@@ -386,10 +380,8 @@ void cursorPos(GLFWwindow* window, double x, double y)
 		}
 		else
 		{
-
 			float ax = float(x);
 			float ay = gHeight - float(y);
-
 			figures.back()->setVertex(1, ax, ay);
 		}
 	}
