@@ -2,9 +2,17 @@
 SHORTCUTS
 
 C - DRAW CIRCLE
+
 E - DRAW ELLIPSE
+
 T - DRAW TRIANGLE (FIRST CLICK, SECOND CLICK AND DRAG)
+
 Q - DRAW QUAD
+
 L - DRAW LINE
+
 P - SELECT FIGURE
+
 D - DELETE MODE(DELETE WHEN YOU SELECT ONE FIGURE IN THIS MODE)
+
+Para la traslacion primero seleccionas la figura con P y luego click derecho para desplazarla
