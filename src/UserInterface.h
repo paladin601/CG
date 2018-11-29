@@ -15,6 +15,7 @@ private:
 	TwBar *mUserInterface;
 	float mFigureColor[3],mFigureColorFill[3];
 	bool fill;
+	bool del;
 	int zIndex;
 	string mFigureType;
 
@@ -30,10 +31,12 @@ public:
 	void setFigureType(string type);
 	void setFill(bool);
 	void setZIndex(int);
+	void setDel(bool);
 	float* getFigureColor();
 	float* getFigureColorFill();
 	int getZIndex();
 	bool getFill();
+	bool getDel();
 
 private:
 	///Private constructor

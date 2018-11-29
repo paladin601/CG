@@ -4,11 +4,13 @@
 
 void pick(int x, int y);
 
-void delfig(int, int);
+void delfig();
 
 void updateUserInterface();
 
 void paintBoundingBox(float *, float*);
+
+void deleteBoundingBox();
 
 void positionFigure(int);
 

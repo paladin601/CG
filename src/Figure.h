@@ -12,7 +12,7 @@ enum FigureType
 	CIRCLE,
 	TRIANGLE,
 	ELLIPSE,
-	DELETE
+	BEZIER
 };
 
 class CFigure

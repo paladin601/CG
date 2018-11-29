@@ -5,6 +5,7 @@
 #include "Triangle.h"
 #include "Ellipse.h"
 #include "UserInterface.h"
+#include "Bezier.h"
 #include <iostream>
 
 using namespace std;
@@ -19,9 +20,12 @@ FigureType figureSelected;
 CFigure *refPicked = NULL;
 int picked;
 int tpicked = 0;
+int bFirst = 0;
 bool activeBox = false;
 bool drag = false;
 float vx0, vy0, vx1, vy1;
+float bx, by, bx2, by2;
+CBezier *auxBezier;
 
 void pick(int x, int y)
 {
@@ -43,8 +47,8 @@ void pick(int x, int y)
 			int aux = figures[i]->getZIndex();
 			if (aux > zIndex) {
 
-				max[0] =  v2[0];
-				max[1] =  v2[1];
+				max[0] = v2[0];
+				max[1] = v2[1];
 
 				min[0] = v1[0];
 				min[1] = v1[1];
@@ -53,9 +57,10 @@ void pick(int x, int y)
 			}
 		}
 	}
-	if (picked>-1)
+	if (picked > -1)
 	{
 		refPicked = figures[picked];
+		userInterface->setDel(false);
 		userInterface->setFigureColor(refPicked->getColor());
 		userInterface->show();
 		paintBoundingBox(min, max);
@@ -79,59 +84,54 @@ void pick(int x, int y)
 		else if (type == ELLIPSE) {
 			userInterface->setFigureType("Ellipse");
 		}
+		else if (type == BEZIER) {
+			userInterface->setFigureType("Bezier");
+		}
 	}
 }
 
 void paintBoundingBox(float *min, float *max) {
 	activeBox = true;
 	CQuad *quad = new CQuad();
-	quad->setVertex(0, min[0]-1, min[1]-1);
-	quad->setVertex(1, max[0]+1, max[1]+1);
+	quad->setVertex(0, min[0] - 1, min[1] - 1);
+	quad->setVertex(1, max[0] + 1, max[1] + 1);
 	quad->setColor(1.0, 0, 0);
 	quad->setZIndex(300);
 	figures.push_back(quad);
 }
 
-void delfig(int x,int y) {
-	picked = -1;
+void deleteBoundingBox() {
+	CFigure *f1 = figures.back();
+	figures.pop_back();
+	f1->~CFigure();
+	activeBox = false;
+}
+
+void delfig() {
 	userInterface->hide();
-	int zIndex=-300;
-
-	for (unsigned int i = 0; i < figures.size(); i++)
-	{
-		float *v1 = figures[i]->getBoundingBox(0);
-		float *v2 = figures[i]->getBoundingBox(1);
-		// This should be precalculated
-
-
-		if (x >= v1[0] && x <= v2[0] && y >= v1[1] && y <= v2[1])
-		{
-			int aux = figures[i]->getZIndex();
-			if (aux > zIndex) {
-				zIndex = aux;
-				picked = i;
-			}
-		}
-	}
-	if (picked > -1)
-	{
-		figures[picked]->setDelete();
-		picked = -1;
-	}
+	deleteBoundingBox();
+	figures[picked]->setDelete();
+	picked = -1;
 }
 
 void updateUserInterface()
 {
 	if (picked > -1 && !drag)
 	{
-		float * color = userInterface->getFigureColor();
-		float * colorFill = userInterface->getFigureColorFill();
-		int zIndex = userInterface->getZIndex();
-		figures[picked]->setColor(color[0], color[1], color[2]);
-		figures[picked]->setColorFill(colorFill[0], colorFill[1], colorFill[2]);
-		figures[picked]->setFill(userInterface->getFill());
-		figures[picked]->setZIndex(zIndex);
-		positionFigure(zIndex);
+		bool del = userInterface->getDel();
+		if (del) {
+			delfig();
+		}
+		else {
+			float * color = userInterface->getFigureColor();
+			float * colorFill = userInterface->getFigureColorFill();
+			int zIndex = userInterface->getZIndex();
+			figures[picked]->setColor(color[0], color[1], color[2]);
+			figures[picked]->setColorFill(colorFill[0], colorFill[1], colorFill[2]);
+			figures[picked]->setFill(userInterface->getFill());
+			figures[picked]->setZIndex(zIndex);
+			positionFigure(zIndex);
+		}
 	}
 }
 
@@ -140,9 +140,9 @@ void positionFigure(int Zindex) {
 	CFigure *f1 = figures[picked];
 	figures.erase(figures.begin() + picked);
 	for (unsigned int i = 0; i < figures.size(); i++) {
-		zindexver= figures[i]->getZIndex();
+		zindexver = figures[i]->getZIndex();
 		if (Zindex < zindexver) {
-			figures.insert(figures.begin()+i,f1);
+			figures.insert(figures.begin() + i, f1);
 			picked = i;
 			break;
 		}
@@ -160,7 +160,7 @@ void display()
 		}
 		else {
 			figures[i]->~CFigure();
-			figures.erase(figures.begin()+i);
+			figures.erase(figures.begin() + i);
 			int x = 2;
 		}
 }
@@ -219,8 +219,8 @@ void keyInput(GLFWwindow *window, int key, int scancode, int action, int mods)
 			figureSelected = ELLIPSE;
 			userInterface->hide();
 			break;
-		case GLFW_KEY_D:
-			figureSelected = DELETE;
+		case GLFW_KEY_B:
+			figureSelected = BEZIER;
 			userInterface->hide();
 			break;
 		}
@@ -238,10 +238,7 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !gPress)
 	{
 		if (activeBox) {
-			CFigure *f1 = figures.back();
-			figures.pop_back();
-			f1->~CFigure();
-			activeBox = false;
+			deleteBoundingBox();
 			picked = -1;
 		}
 		float ax = float(x);
@@ -249,10 +246,6 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 
 		if (figureSelected == NONE)
 			pick(int(ax), int(ay));
-		else if (figureSelected == DELETE)
-		{
-			delfig(int(ax), int(ay));
-		}
 		else if (figureSelected == LINE)
 		{
 			CLine *line = new CLine();
@@ -287,15 +280,10 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 				vy0 = ay;
 				tpicked = 1;
 			}
-			if (tpicked == 1) {
-				vx1 = ax;
-				vy1 = ay;
-				tpicked = 2;
-			}
 			else {
 				CTriangle *triangle = new CTriangle();
-				triangle->setVertex(0, vx0+1, vy0);
-				triangle->setVertex(1, vx1, vy0);
+				triangle->setVertex(0, vx0 + 1, vy0);
+				triangle->setVertex(1, ax, ay);
 				triangle->setVertex(2, ax, ay);
 				figures.push_back(triangle);
 				tpicked = 0;
@@ -312,14 +300,36 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 
 			gPress = true;
 		}
+		else if (figureSelected == BEZIER)
+		{
+			if (bFirst == 0)
+			{
+				bx = ax;
+				by = ay;
+				bFirst++;
+			}
+			else if (bFirst == 1)
+			{
+				bx2 = ax;
+				by2 = ay;
+				bFirst++;
+			}
+			else {
+				CBezier *bezier = new CBezier;
+				bezier->setVertex(0, bx, by);
+				bezier->setVertex(1, bx2, by2);
+				bezier->setVertex(2, ax, ay);
+				figures.push_back(bezier);
+				auxBezier = bezier;
+				gPress = true;
+				bFirst = 0;
+			}
+		}
 	}
 
-	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS ) {
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
 		if (activeBox) {
-			CFigure *f1 = figures.back();
-			figures.pop_back();
-			f1->~CFigure();
-			activeBox = false;
+			deleteBoundingBox();
 		}
 		drag = true;
 		gPress = true;
@@ -341,7 +351,7 @@ void cursorPos(GLFWwindow* window, double x, double y)
 
 	if (gPress)
 	{
-		if (drag && picked>-1) {
+		if (drag && picked > -1) {
 			userInterface->hide();
 			float ax = float(x);
 			float ay = gHeight - float(y);
@@ -361,7 +371,22 @@ void cursorPos(GLFWwindow* window, double x, double y)
 				refPicked->setTranslate(1, ax, ay);
 			}
 		}
-		else {
+		else if (figureSelected == BEZIER) {
+			float ax = float(x);
+			float ay = gHeight - float(y);
+			//obtener ultimo punto de control para seguir desde ahi
+			figures.back()->setVertex(2, ax, ay);
+		}
+		else if (figureSelected == TRIANGLE)
+		{
+			float ax = float(x);
+			float ay = gHeight - float(y);
+
+			figures.back()->setVertex(2, ax, ay);
+		}
+		else
+		{
+
 			float ax = float(x);
 			float ay = gHeight - float(y);
 
@@ -393,7 +418,7 @@ bool initGlfw()
 	if (!glfwInit())
 		return false;
 
-	gWindow = glfwCreateWindow(gWidth, gHeight, "ICG - Plantilla", NULL, NULL);
+	gWindow = glfwCreateWindow(gWidth, gHeight, "ICG - Proyecto 1", NULL, NULL);
 
 	if (!gWindow)
 	{

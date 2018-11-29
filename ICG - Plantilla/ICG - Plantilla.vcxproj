@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Bezier.h" />
     <ClInclude Include="..\src\Circle.h" />
     <ClInclude Include="..\src\Ellipse.h" />
     <ClInclude Include="..\src\Figure.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="..\src\UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Bezier.cpp" />
     <ClCompile Include="..\src\Circle.cpp" />
     <ClCompile Include="..\src\Ellipse.cpp" />
     <ClCompile Include="..\src\Figure.cpp" />

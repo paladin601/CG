@@ -36,6 +36,8 @@ CUserInterface::CUserInterface()
 	TwAddVarRW(mUserInterface, "fill", TW_TYPE_BOOLCPP, &fill, "label= Relleno");
 	TwAddVarRW(mUserInterface, "colorFill", TW_TYPE_COLOR3F, &mFigureColorFill[0], "label = 'Color de Relleno:'");
 	TwAddVarRW(mUserInterface, "zIndex", TW_TYPE_UINT8, &zIndex, " keyIncr=1 ");
+	TwAddVarRW(mUserInterface, "remove", TW_TYPE_BOOLCPP, &del, "label= Eliminar");
+
 }
 
 CUserInterface::~CUserInterface()
@@ -83,6 +85,10 @@ void CUserInterface::setZIndex(int a) {
 	zIndex = a;
 }
 
+void CUserInterface::setDel(bool a) {
+	del = a;
+}
+
 float* CUserInterface::getFigureColor()
 {
 	return mFigureColor;
@@ -95,6 +101,10 @@ float* CUserInterface::getFigureColorFill()
 
 bool CUserInterface::getFill() {
 	return fill;
+}
+
+bool CUserInterface::getDel() {
+	return del;
 }
 
 int CUserInterface::getZIndex() {
