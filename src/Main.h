@@ -10,8 +10,6 @@ void updateUserInterface();
 
 void paintBoundingBox(float *, float*);
 
-void translateFigure(float ,float);
-
 void positionFigure(int);
 
 void display();

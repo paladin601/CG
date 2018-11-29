@@ -95,10 +95,10 @@ int CFigure::getZIndex() {
 
 float* CFigure::getMidPoint() {
 	float aux[1][2];
-	aux[0][0] = boundingBox[0][0] - boundingBox[1][0];
-	aux[0][1] = boundingBox[0][1] - boundingBox[1][1];
-	aux[0][0] = boundingBox[0][0] - aux[0][0];
-	aux[0][1] = boundingBox[0][1] - aux[0][1];
+	aux[0][0] = boundingBox[1][0] - boundingBox[0][0];
+	aux[0][1] = boundingBox[1][1] - boundingBox[0][1];
+	aux[0][0] = boundingBox[1][0] - aux[0][0];
+	aux[0][1] = boundingBox[1][1] - aux[0][1];
 	return aux[0];
 }
 

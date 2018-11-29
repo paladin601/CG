@@ -16,6 +16,7 @@ bool gPress;
 CUserInterface * userInterface;
 vector <CFigure *> figures;
 FigureType figureSelected;
+CFigure *refPicked = NULL;
 int picked;
 int tpicked = 0;
 bool activeBox = false;
@@ -52,15 +53,16 @@ void pick(int x, int y)
 			}
 		}
 	}
-	if (picked>-1 && !drag)
+	if (picked>-1)
 	{
-		userInterface->setFigureColor(figures[picked]->getColor());
+		refPicked = figures[picked];
+		userInterface->setFigureColor(refPicked->getColor());
 		userInterface->show();
 		paintBoundingBox(min, max);
-		userInterface->setFill(figures[picked]->getFill());
-		userInterface->setFigureColorFill(figures[picked]->getColorFill());
-		userInterface->setZIndex(figures[picked]->getZIndex());
-		int type = figures[picked]->getType();
+		userInterface->setFill(refPicked->getFill());
+		userInterface->setFigureColorFill(refPicked->getColorFill());
+		userInterface->setZIndex(refPicked->getZIndex());
+		int type = refPicked->getType();
 
 		if (type == LINE) {
 			userInterface->setFigureType("Line");
@@ -90,53 +92,6 @@ void paintBoundingBox(float *min, float *max) {
 	figures.push_back(quad);
 }
 
-void translateFigure(float x, float y)
-{
-	picked = -1;
-	userInterface->hide();
-	int zIndex = -1500;
-
-	for (unsigned int i = 0; i < figures.size(); i++)
-	{
-		float *v1 = figures[i]->getBoundingBox(0);
-		float *v2 = figures[i]->getBoundingBox(1);
-		// This should be precalculated
-
-
-		if (x >= v1[0] && x <= v2[0] && y >= v1[1] && y <= v2[1])
-		{
-			int aux = figures[i]->getZIndex();
-			if (aux > zIndex) {
-
-				zIndex = aux;
-				picked = i;
-			}
-		}
-	}
-	if (picked > -1 && drag)
-	{
-		userInterface->setFigureColor(figures[picked]->getColor());
-		userInterface->setFigureColorFill(figures[picked]->getColorFill());
-		userInterface->setFill(figures[picked]->getFill());
-		userInterface->setZIndex(figures[picked]->getZIndex());
-		float *aux = figures[picked]->getMidPoint();
-		x -= aux[0];
-		y -= aux[1];
-		x /= 4;
-		y /= 4;
-
-		if (figures[picked]->getType() == TRIANGLE) {
-			figures[picked]->setTranslate(0, x, y);
-			figures[picked]->setTranslate(1, x, y);
-			figures[picked]->setTranslate(2, x, y);
-		}
-		else {
-			figures[picked]->setTranslate(0, x, y);
-			figures[picked]->setTranslate(1, x, y);
-		}
-	}
-}
-
 void delfig(int x,int y) {
 	picked = -1;
 	userInterface->hide();
@@ -158,7 +113,7 @@ void delfig(int x,int y) {
 			}
 		}
 	}
-	if (picked > -1 && !drag)
+	if (picked > -1)
 	{
 		figures[picked]->setDelete();
 		picked = -1;
@@ -182,7 +137,6 @@ void updateUserInterface()
 
 void positionFigure(int Zindex) {
 	int zindexver;
-	bool x = false;
 	CFigure *f1 = figures[picked];
 	figures.erase(figures.begin() + picked);
 	for (unsigned int i = 0; i < figures.size(); i++) {
@@ -190,7 +144,6 @@ void positionFigure(int Zindex) {
 		if (Zindex < zindexver) {
 			figures.insert(figures.begin()+i,f1);
 			picked = i;
-			x = true;
 			break;
 		}
 	}
@@ -367,18 +320,17 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 			figures.pop_back();
 			f1->~CFigure();
 			activeBox = false;
-			picked = -1;
 		}
 		drag = true;
-		float ax = float(x);
-		float ay = gHeight - float(y);
-		translateFigure(ax, ay);
+		gPress = true;
 	}
-
-	if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT) && action == GLFW_RELEASE) {
-		picked = -1;
-		gPress = false;
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
 		drag = false;
+		gPress = false;
+		picked = -1;
+	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		gPress = false;
 	}
 }
 
@@ -389,10 +341,32 @@ void cursorPos(GLFWwindow* window, double x, double y)
 
 	if (gPress)
 	{
-		float ax = float(x);
-		float ay = gHeight - float(y);
+		if (drag && picked>-1) {
+			userInterface->hide();
+			float ax = float(x);
+			float ay = gHeight - float(y);
+			float *aux = refPicked->getMidPoint();
+			ax -= aux[0];
+			ay -= aux[1];
+			ax /= 4;
+			ay /= 4;
 
-		figures.back()->setVertex(1, ax, ay);
+			if (refPicked->getType() == TRIANGLE) {
+				refPicked->setTranslate(0, ax, ay);
+				refPicked->setTranslate(1, ax, ay);
+				refPicked->setTranslate(2, ax, ay);
+			}
+			else {
+				refPicked->setTranslate(0, ax, ay);
+				refPicked->setTranslate(1, ax, ay);
+			}
+		}
+		else {
+			float ax = float(x);
+			float ay = gHeight - float(y);
+
+			figures.back()->setVertex(1, ax, ay);
+		}
 	}
 }
 
