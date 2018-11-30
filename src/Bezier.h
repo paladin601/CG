@@ -8,9 +8,9 @@ class CBezier : public CFigure
 protected:
 	vector<pair <float, float>* > puntosControl;
 	pair <float, float> *punto;
-	double paso = 0.1;
+	double paso = 0.00025;
 	float VertXY1[2];
-	int numeroVertices = 3;
+	int numeroVertices = 4;
 public:
 	CBezier();
 	~CBezier();

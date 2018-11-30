@@ -1,6 +1,39 @@
 #include "Ellipse.h"
 #include <stdlib.h>
 
+class Point {
+public:
+	float x, y;
+	void setxy(float x2, float y2)
+	{
+		x = x2; y = y2;
+	}
+	//operator overloading for '=' sign
+	const Point & operator=(const Point &rPoint)
+	{
+		x = rPoint.x;
+		y = rPoint.y;
+		return *this;
+	}
+
+};
+
+int factorial(int n)
+{
+	if (n <= 1)
+		return(1);
+	else
+		n = n * factorial(n - 1);
+	return n;
+}
+
+float binomial_coff(float n, float k)
+{
+	float ans;
+	ans = factorial(n) / (factorial(k)*factorial(n - k));
+	return ans;
+}
+
 CEllipse::CEllipse()
 {
 	mVertices = new float*[2];

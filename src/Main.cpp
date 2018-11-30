@@ -219,10 +219,10 @@ void keyInput(GLFWwindow *window, int key, int scancode, int action, int mods)
 			figureSelected = ELLIPSE;
 			userInterface->hide();
 			break;
-		case GLFW_KEY_B:
+		/*case GLFW_KEY_B:
 			figureSelected = BEZIER;
 			userInterface->hide();
-			break;
+			break;*/
 		}
 	}
 }
@@ -307,12 +307,19 @@ void mouseButton(GLFWwindow* window, int button, int action, int mods)
 				bx = ax;
 				by = ay;
 				bFirst++;
-			}else
+			}
+			else if (bFirst == 1)
 			{
+				bx2 = ax;
+				by2 = ay;
+				bFirst++;
+			}
+			else {
 				CBezier *bezier = new CBezier;
 				bezier->setVertex(0, bx, by);
-				bezier->setVertex(1, ax, ay);
+				bezier->setVertex(1, bx2, by2);
 				bezier->setVertex(2, ax, ay);
+				bezier->setVertex(3, ax, ay);
 				figures.push_back(bezier);
 				auxBezier = bezier;
 				gPress = true;
@@ -369,7 +376,7 @@ void cursorPos(GLFWwindow* window, double x, double y)
 			float ax = float(x);
 			float ay = gHeight - float(y);
 			//obtener ultimo punto de control para seguir desde ahi
-			figures.back()->setVertex(2, ax, ay);
+			figures.back()->setVertex(3, ax, ay);
 		}
 		else if (figureSelected == TRIANGLE)
 		{
@@ -380,9 +387,11 @@ void cursorPos(GLFWwindow* window, double x, double y)
 		}
 		else
 		{
-			float ax = float(x);
-			float ay = gHeight - float(y);
-			figures.back()->setVertex(1, ax, ay);
+		//	if (figureSelected != NONE) { Este if quita el poder modificar el segundo vertice luego de trasladar una figura
+				float ax = float(x);
+				float ay = gHeight - float(y);
+				figures.back()->setVertex(1, ax, ay);
+		//	}
 		}
 	}
 }
