@@ -387,7 +387,7 @@ void cursorPos(GLFWwindow* window, double x, double y)
 		}
 		else
 		{
-		//	if (figureSelected != NONE) { Este if quita el poder modificar el segundo vertice luego de trasladar una figura
+		//if (figureSelected != NONE) { //Este if quita el poder modificar el segundo vertice luego de trasladar una figura
 				float ax = float(x);
 				float ay = gHeight - float(y);
 				figures.back()->setVertex(1, ax, ay);
