@@ -16,11 +16,3 @@ p - SELECT FIGURE shortcut in ui (r=remove,f=fill,+=increment Zindex,-=decrement
 DELETE MODE(FIRST SELECT ONE FIGURE IN MODE SELECT FIGURE "P" AND SELECT OPTION DELETE)
 
 TRASLATE (FIRST SELECT ONE FIGURE IN MODE SELECT FIGURE "P" AND CLICK RIGHT FOR TRASLATE)
-
-----------------------------------------------------------------------------------------------------------------------
-
-EXTRA: IS YOU TRASLATE AND PRESS AGAIN CLICK RIGHT YOU MODIFY SECOND VERTEX (in last figure or figure with max ZINDEX)
-
-REMOVE THIS: UNCOMMENT LINE 390 and 394 in main.cpp 
-
-if (figureSelected != NONE) { }
